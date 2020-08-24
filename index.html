@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Twitter X</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1 class="title">Twitter X</h1>
+      <form class="tweet-form">
+        <label for="name">Name</label>
+        <input class="u-full-width" type="text" id="name" name="name" />
+
+        <label for="tweet">Tweet</label>
+        <textarea
+          class="u-full-width"
+          type="text"
+          id="tweet"
+          name="tweet"
+        ></textarea>
+
+        <button class="button-primary">Tweet</button>
+      </form>
+
+      <div class="loading">🌀</div>
+    </header>
+    <script src="client.js"></script>
+  </body>
+</html>

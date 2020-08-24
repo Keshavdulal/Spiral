@@ -1,0 +1,27 @@
+body {
+  font-size: 16px;
+}
+
+.title {
+  text-align: center;
+}
+
+.tweet-form {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.loading {
+  width: 50%;
+  text-align: center;
+  margin: 0 auto;
+  font-size: 10rem;
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
