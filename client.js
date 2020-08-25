@@ -1,4 +1,7 @@
-const API_URL = 'http://localhost:5000/tweet';
+const API_URL =
+  window.location.hostname === 'localhost'
+    ? 'http://localhost:5000/tweet'
+    : 'https://tranquil-hamlet-17420.herokuapp.com/tweet';
 
 const tweetForm = document.querySelector('form');
 const loadingSpiral = document.querySelector('.loading');
