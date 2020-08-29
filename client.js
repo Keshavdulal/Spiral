@@ -1,13 +1,30 @@
 const API_URL =
-  window.location.hostname === 'localhost'
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1'
     ? 'http://localhost:5000/tweet'
     : 'https://tranquil-hamlet-17420.herokuapp.com/tweet';
 
 const tweetForm = document.querySelector('form');
 const loadingSpiral = document.querySelector('.loading');
 const xpiralsElemDiv = document.querySelector('.xpirals-list');
+const loadMoreElem = document.querySelector('#loadMore');
+
+let skip = 0;
+let limit = 5;
+let isLoading = false;
+let finished = false;
 
 loadingSpiral.style.display = '';
+// loadMoreElem.style.display = 'none';
+
+// loadMoreButton.addEventListener('click', loadMore);
+// switiching to ♾ scroll
+document.addEventListener('scroll', () => {
+  const rect = loadMoreElem.getBoundingClientRect();
+  if (rect.top < window.innerHeight && !isLoading && !finished) {
+    loadMore();
+  }
+});
 
 // get all xpirals from server
 listAllXpirals();
@@ -49,18 +66,26 @@ tweetForm.addEventListener('submit', (event) => {
     });
 });
 
-function listAllXpirals() {
-  // reset feed
-  xpiralsElemDiv.innerHTML = '';
-  fetch(API_URL)
+function listAllXpirals(reset = true) {
+  if (reset) {
+    // reset feed
+    xpiralsElemDiv.innerHTML = '';
+    skip = 0;
+    isLoading = false;
+    finished = false;
+  }
+  fetch(`${API_URL}?skip=${skip}&limit=${limit}`)
     .then((resp) => resp.json())
-    .then((xpiralsData) => {
-      console.log(xpiralsData);
+    .then((resp) => {
+      // console.log('xpiralsData', resp.xpirals);
 
       // update UI
       loadingSpiral.style.display = 'none';
-      xpiralsData.reverse();
-      xpiralsData.forEach((item) => {
+      loadMoreElem.style.display = resp.meta.has_more ? '' : 'none';
+      finished = !resp.meta.has_more;
+      isLoading = false;
+
+      resp.xpirals.forEach((item) => {
         const div = document.createElement('div');
         const header = document.createElement('h3');
         const xpiralInfo = document.createElement('p');
@@ -76,4 +101,11 @@ function listAllXpirals() {
         xpiralsElemDiv.appendChild(div);
       });
     });
+}
+
+function loadMore() {
+  // console.log('@loadMore');
+  skip += limit;
+  isLoading = true;
+  listAllXpirals(false);
 }

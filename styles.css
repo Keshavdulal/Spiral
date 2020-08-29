@@ -3,6 +3,11 @@ body {
   background: #333;
   color: #fff;
 }
+.button-container {
+  margin: 1em;
+  display: flex;
+  justify-content: center;
+}
 
 .title {
   text-align: center;
