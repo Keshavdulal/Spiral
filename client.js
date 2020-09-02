@@ -6,7 +6,7 @@ const API_URL =
 
 const tweetForm = document.querySelector('form');
 const loadingSpiral = document.querySelector('.loading');
-const xpiralsElemDiv = document.querySelector('.xpirals-list');
+const spiralsElemDiv = document.querySelector('.spirals-list');
 const loadMoreElem = document.querySelector('#loadMore');
 
 let skip = 0;
@@ -15,10 +15,8 @@ let isLoading = false;
 let finished = false;
 
 loadingSpiral.style.display = '';
-// loadMoreElem.style.display = 'none';
 
-// loadMoreButton.addEventListener('click', loadMore);
-// switiching to ♾ scroll
+// switiching to an infinite scroll
 document.addEventListener('scroll', () => {
   const rect = loadMoreElem.getBoundingClientRect();
   if (rect.top < window.innerHeight && !isLoading && !finished) {
@@ -26,18 +24,17 @@ document.addEventListener('scroll', () => {
   }
 });
 
-// get all xpirals from server
-listAllXpirals();
+// get all spirals from server
+listAllSpirals();
 
 tweetForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
-  // 1. Extract data from Form
+  // Extract data from form
   const tweetFormData = new FormData(tweetForm);
   const name = tweetFormData.get('name');
   const tweet = tweetFormData.get('tweet');
   const tweetData = { name, tweet };
-  // console.log('Sending frontend data 🌈 ', tweetData);
 
   // Update UI
   loadingSpiral.style.display = '';
@@ -52,9 +49,8 @@ tweetForm.addEventListener('submit', (event) => {
     },
   })
     .then((resp) => resp.json())
-    .then((createdXpiral) => {
-      listAllXpirals();
-      // console.log('🌈🌈', createdXpiral);
+    .then((createdspiral) => {
+      listAllSpirals();
       // update UI Again & reset form data
       loadingSpiral.style.display = 'none';
       tweetForm.reset();
@@ -66,10 +62,10 @@ tweetForm.addEventListener('submit', (event) => {
     });
 });
 
-function listAllXpirals(reset = true) {
+function listAllSpirals(reset = true) {
   if (reset) {
     // reset feed
-    xpiralsElemDiv.innerHTML = '';
+    spiralsElemDiv.innerHTML = '';
     skip = 0;
     isLoading = false;
     finished = false;
@@ -77,7 +73,7 @@ function listAllXpirals(reset = true) {
   fetch(`${API_URL}?skip=${skip}&limit=${limit}`)
     .then((resp) => resp.json())
     .then((resp) => {
-      // console.log('xpiralsData', resp.xpirals);
+      // console.log('spiralsData', resp.spirals);
 
       // update UI
       loadingSpiral.style.display = 'none';
@@ -85,20 +81,20 @@ function listAllXpirals(reset = true) {
       finished = !resp.meta.has_more;
       isLoading = false;
 
-      resp.xpirals.forEach((item) => {
+      resp.spirals.forEach((item) => {
         const div = document.createElement('div');
         const header = document.createElement('h3');
-        const xpiralInfo = document.createElement('p');
-        const xpiralDate = document.createElement('small');
+        const spiralInfo = document.createElement('p');
+        const spiralDate = document.createElement('small');
 
         header.textContent = item.name;
-        xpiralInfo.textContent = item.tweet;
-        xpiralDate.textContent = new Date(item.created);
+        spiralInfo.textContent = item.tweet;
+        spiralDate.textContent = new Date(item.created);
 
         div.appendChild(header);
-        div.appendChild(xpiralDate);
-        div.appendChild(xpiralInfo);
-        xpiralsElemDiv.appendChild(div);
+        div.appendChild(spiralDate);
+        div.appendChild(spiralInfo);
+        spiralsElemDiv.appendChild(div);
       });
     });
 }
@@ -107,5 +103,5 @@ function loadMore() {
   // console.log('@loadMore');
   skip += limit;
   isLoading = true;
-  listAllXpirals(false);
+  listAllSpirals(false);
 }

@@ -1,11 +1,9 @@
-# Spiral
+# Spiral (Frontend)
 
-## A Personal Thoughts Tracker
+## A Personal Thoughts Tracker (CRUD App)
 
-### Made Using React, Node, Express & Mongo
+> [Backend](https://github.com/Keshavdulal/spiral-backend)
 
-### Frontend Hosted on Github & Backend on Heroku
+> Made Using Vanilla JS, Node, Express & Mongo
 
-### Inspired by Tutorials of CJ From The Coding Garden
-
-[Part 1](https://www.youtube.com/watch?v=JnEH9tYLxLk) | [Part 2](https://www.youtube.com/watch?v=_mwQR2lF6qc)
+> Frontend Hosted on Github & Backend on Heroku
